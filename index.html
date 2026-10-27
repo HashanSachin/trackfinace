@@ -236,65 +236,7 @@
         </div>
     </div>
 
-    <!-- ==========================================
-         4. ADD COUNTRY MODAL (MULTI-COUNTRY EXPAT)
-         ========================================== -->
-    <div id="add-country-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-        <div class="sapphire-card rounded-3xl max-w-md w-full p-6 border border-sky-400/40 page-transition">
-            <div class="flex items-center justify-between border-b border-blue-500/25 pb-3.5 mb-4">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300">
-                        <i class="fa-solid fa-globe text-lg"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-display text-lg font-bold text-white">Add Country Workspace</h3>
-                        <p class="text-xs text-blue-300">Separate accounts, transactions & reports</p>
-                    </div>
-                </div>
-                <button onclick="closeAddCountryModal()" class="w-8 h-8 rounded-xl bg-sapphire-800 hover:bg-sapphire-700 flex items-center justify-center text-blue-300">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <form id="add-country-form" onsubmit="handleAddCountrySubmit(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-blue-200 mb-1.5">Quick Select Popular Country</label>
-                    <select id="preset-country-select" onchange="applyPresetCountry()" class="w-full px-4 py-3 rounded-xl sapphire-input text-sm">
-                        <option value="">-- Choose a Preset Country or Type Below --</option>
-                        <option value="Kuwait|KWD|🇰🇼">🇰🇼 Kuwait (KWD)</option>
-                        <option value="Sri Lanka|LKR|🇱🇰">🇱🇰 Sri Lanka (LKR)</option>
-                        <option value="UAE|AED|🇦🇪">🇦🇪 United Arab Emirates (AED)</option>
-                        <option value="Saudi Arabia|SAR|🇸🇦">🇸🇦 Saudi Arabia (SAR)</option>
-                        <option value="Qatar|QAR|🇶🇦">🇶🇦 Qatar (QAR)</option>
-                        <option value="Bahrain|BHD|🇧🇭">🇧🇭 Bahrain (BHD)</option>
-                        <option value="Oman|OMR|🇴🇲">🇴🇲 Oman (OMR)</option>
-                        <option value="United Kingdom|GBP|🇬🇧">🇬🇧 United Kingdom (GBP)</option>
-                        <option value="United States|USD|🇺🇸">🇺🇸 United States (USD)</option>
-                        <option value="Europe|EUR|🇪🇺">🇪🇺 Europe (EUR)</option>
-                        <option value="India|INR|🇮🇳">🇮🇳 India (INR)</option>
-                        <option value="Australia|AUD|🇦🇺">🇦🇺 Australia (AUD)</option>
-                        <option value="Canada|CAD|🇨🇦">🇨🇦 Canada (CAD)</option>
-                        <option value="Singapore|SGD|🇸🇬">🇸🇬 Singapore (SGD)</option>
-                        <option value="Japan|JPY|🇯🇵">🇯🇵 Japan (JPY)</option>
-                    </select>
-                </div>
-
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="col-span-2">
-                        <label class="block text-xs font-semibold text-blue-200 mb-1">Country Name</label>
-                        <input id="custom-country-name" type="text" required placeholder="e.g., UAE" class="w-full px-3.5 py-2.5 rounded-xl sapphire-input text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-blue-200 mb-1">Currency</label>
-                        <input id="custom-country-curr" type="text" required maxlength="6" placeholder="AED" class="w-full px-3.5 py-2.5 rounded-xl sapphire-input text-sm uppercase font-bold">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-blue-200 mb-1">Flag Emoji (Optional)</label>
-                    <input id="custom-country-flag" type="text" maxlength="8" placeholder="🇦🇪" value="🌍" class="w-full px-3.5 py-2.5 rounded-xl sapphire-input text-sm">
-                </div>
-
-                <button type="submit" class="w-full py-3.5 rounded-xl btn-sapphire text-white font-bold text-sm flex items-center justify-center gap-2">
+                    <button type="submit" class="w-full py-3.5 rounded-xl btn-sapphire text-white font-bold text-sm flex items-center justify-center gap-2">
                     <i class="fa-solid fa-plus-circle"></i>
                     <span>Add & Switch to Country</span>
                 </button>
@@ -303,8 +245,52 @@
     </div>
 
     <!-- ==========================================
+         4B. DB DIAGNOSTICS & 1-CLICK SQL SETUP MODAL
+         ========================================== -->
+    <div id="db-diag-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="sapphire-card rounded-3xl max-w-lg w-full p-6 border border-sky-400/40 page-transition max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-blue-500/25 pb-3.5 mb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300">
+                        <i class="fa-solid fa-database text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display text-lg font-bold text-white">Cloud Database Diagnostics</h3>
+                        <p id="diag-status-sub" class="text-xs text-sky-300">Checking Supabase connection & table permissions...</p>
+                    </div>
+                </div>
+                <button onclick="closeDbDiagModal()" class="w-8 h-8 rounded-xl bg-sapphire-800 hover:bg-sapphire-700 flex items-center justify-center text-blue-300">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-xs sm:text-sm">
+                <div id="diag-alert-box" class="p-3.5 rounded-2xl bg-sapphire-900/90 border border-blue-400/30 text-blue-100 leading-relaxed">
+                    If you cannot register or log in on Supabase Cloud, it usually means the database tables haven't been created yet or permissions (RLS/Grants) are blocking browser requests.
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" onclick="copySchemaSQL()" class="flex-1 py-3 px-4 rounded-xl btn-sapphire text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-copy"></i>
+                        <span>1. Copy Full SQL Setup Script</span>
+                    </button>
+                    <button type="button" onclick="retestCloudConnection()" class="py-3 px-4 rounded-xl bg-sapphire-800 hover:bg-sapphire-700 border border-sky-400/40 text-sky-300 font-bold text-xs sm:text-sm flex items-center gap-1.5">
+                        <i class="fa-solid fa-rotate"></i>
+                        <span>2. Re-Test Connection</span>
+                    </button>
+                </div>
+
+                <p class="text-[11px] text-blue-300">
+                    Paste this script inside your <b>Supabase Dashboard → SQL Editor → New Query</b> and click <b>Run</b>:
+                </p>
+
+                <pre id="diag-sql-preview" class="p-3 rounded-xl bg-[#040917] border border-blue-500/30 text-[10px] text-sky-200 font-mono overflow-x-auto max-h-44 select-all leading-relaxed"></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
          5. AUTHENTICATION VIEW (CLEAN LOGIN & SIGNUP)
-         (NO Database Setup Button Shown to Users!)
          ========================================== -->
     <main id="auth-view" class="hidden min-h-screen flex flex-col justify-center items-center px-4 py-10">
         <div class="w-full max-w-md page-transition">
@@ -317,16 +303,22 @@
                     Finance Cloud <span class="text-sky-400">Pro</span>
                 </h1>
                 <p class="text-xs sm:text-sm text-blue-200/80 mt-1">Global Expat Multi-Country Wealth Manager</p>
+                <div class="mt-2.5 flex items-center justify-center">
+                    <button type="button" onclick="openDbDiagModal()" id="auth-conn-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sapphire-900/90 border border-blue-400/30 text-[11px] font-semibold text-sky-300 hover:border-sky-400 transition">
+                        <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+                        <span>Checking Database...</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Auth Card -->
             <div class="sapphire-card rounded-3xl p-6 sm:p-8">
                 <!-- Auth Mode Tabs -->
                 <div class="grid grid-cols-2 gap-2 p-1.5 rounded-2xl bg-sapphire-900/90 border border-blue-500/20 mb-6">
-                    <button id="tab-login-btn" onclick="switchAuthTab('login')" class="py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow transition">
+                    <button id="tab-login-btn" type="button" onclick="switchAuthTab('login')" class="py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow transition">
                         <i class="fa-solid fa-lock mr-1.5"></i> Sign In
                     </button>
-                    <button id="tab-register-btn" onclick="switchAuthTab('register')" class="py-2.5 rounded-xl text-xs sm:text-sm font-bold text-blue-300 hover:text-white transition">
+                    <button id="tab-register-btn" type="button" onclick="switchAuthTab('register')" class="py-2.5 rounded-xl text-xs sm:text-sm font-bold text-blue-300 hover:text-white transition">
                         <i class="fa-solid fa-user-plus mr-1.5"></i> Create Account
                     </button>
                 </div>
@@ -354,7 +346,7 @@
                         <i class="fa-solid fa-circle-exclamation text-red-400 text-base"></i>
                         <span id="login-error-text">Invalid username or password.</span>
                     </div>
-                    <button type="submit" class="w-full py-3.5 rounded-xl btn-sapphire text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 mt-2">
+                    <button id="login-submit-btn" type="submit" class="w-full py-3.5 rounded-xl btn-sapphire text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 mt-2">
                         <span>Sign In to Workspace</span>
                         <i class="fa-solid fa-arrow-right-to-bracket"></i>
                     </button>
@@ -362,9 +354,13 @@
 
                 <!-- REGISTER FORM -->
                 <form id="register-form" onsubmit="handleRegister(event)" class="hidden space-y-4" autocomplete="off">
+                    <div class="p-3 rounded-xl bg-sky-500/15 border border-sky-400/35 text-[11px] text-sky-200 leading-relaxed flex items-start gap-2">
+                        <i class="fa-solid fa-shield-halved text-sky-400 mt-0.5"></i>
+                        <span><b>Tip:</b> Registering the first account or username <b>admin</b> automatically grants Master Admin privileges. No default passwords are stored in code.</span>
+                    </div>
                     <div>
                         <label class="block text-xs font-semibold text-blue-200 uppercase tracking-wider mb-1.5">Choose Username</label>
-                        <input id="reg-username" type="text" required value="" placeholder="Enter desired username" class="w-full px-4 py-3 rounded-xl sapphire-input text-sm">
+                        <input id="reg-username" type="text" required value="" placeholder="e.g., admin or your name" class="w-full px-4 py-3 rounded-xl sapphire-input text-sm">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-blue-200 uppercase tracking-wider mb-1.5">Choose Password</label>
@@ -386,7 +382,11 @@
                         </select>
                         <p class="text-[11px] text-blue-300/75 mt-1">You can switch countries anytime or add more countries inside your dashboard.</p>
                     </div>
-                    <button type="submit" class="w-full py-3.5 rounded-xl btn-sapphire text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2">
+                    <div id="reg-error-box" class="hidden p-3.5 rounded-xl bg-red-500/20 border border-red-400/50 text-xs text-red-200 font-medium flex items-center gap-2">
+                        <i class="fa-solid fa-circle-exclamation text-red-400 text-base"></i>
+                        <span id="reg-error-text">Could not create account.</span>
+                    </div>
+                    <button id="reg-submit-btn" type="submit" class="w-full py-3.5 rounded-xl btn-sapphire text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2">
                         <i class="fa-solid fa-user-check"></i>
                         <span>Create Free Account</span>
                     </button>
@@ -1176,15 +1176,18 @@
                 </div>
 
                 <div class="flex flex-wrap gap-3">
-                    <button onclick="saveAndConnectSupabase()" class="flex-1 py-3 px-4 rounded-xl btn-sapphire text-white font-bold text-xs sm:text-sm">
+                    <button type="button" onclick="saveAndConnectSupabase()" class="flex-1 py-3 px-4 rounded-xl btn-sapphire text-white font-bold text-xs sm:text-sm">
                         ☁️ Save & Connect Supabase Cloud
                     </button>
-                    <button onclick="copySchemaSQL()" class="py-3 px-4 rounded-xl bg-sapphire-800 hover:bg-sapphire-700 border border-sky-400/40 text-sky-300 font-bold text-xs sm:text-sm">
+                    <button type="button" onclick="openDbDiagModal()" class="py-3 px-4 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/40 text-sky-300 font-bold text-xs sm:text-sm">
+                        🛠️ DB Diagnostics
+                    </button>
+                    <button type="button" onclick="copySchemaSQL()" class="py-3 px-4 rounded-xl bg-sapphire-800 hover:bg-sapphire-700 border border-sky-400/40 text-sky-300 font-bold text-xs sm:text-sm">
                         📋 Copy Safe Multi-Country SQL Script
                     </button>
                 </div>
 
-                <pre id="sql-schema-code" class="p-3.5 rounded-xl bg-[#040917] border border-blue-500/30 text-[11px] text-sky-200 font-mono overflow-x-auto max-h-44 select-all leading-relaxed">-- Smart Finance Cloud Pro - Non-Destructive Multi-Country PostgreSQL Migration
+                <pre id="sql-schema-code" class="p-3.5 rounded-xl bg-[#040917] border border-blue-500/30 text-[11px] text-sky-200 font-mono overflow-x-auto max-h-44 select-all leading-relaxed">-- Smart Finance Cloud Pro - Complete Multi-Country PostgreSQL Setup & Permissions
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -1264,13 +1267,18 @@ CREATE TABLE IF NOT EXISTS savings_goals (
 );
 ALTER TABLE savings_goals ADD COLUMN IF NOT EXISTS country VARCHAR(60) NOT NULL DEFAULT 'Kuwait';
 
+-- Disable RLS & Grant API Access to Anon / Publishable Key
 ALTER TABLE users DISABLE ROW LEVEL SECURITY;
 ALTER TABLE accounts DISABLE ROW LEVEL SECURITY;
 ALTER TABLE custom_assets DISABLE ROW LEVEL SECURITY;
 ALTER TABLE transactions DISABLE ROW LEVEL SECURITY;
 ALTER TABLE notifications DISABLE ROW LEVEL SECURITY;
 ALTER TABLE budgets DISABLE ROW LEVEL SECURITY;
-ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;</pre>
+ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;
+
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated;</pre>
             </div>
         </section>
     </div>
@@ -1308,13 +1316,20 @@ ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;</pre>
          ========================================== -->
     <script>
         /* ==========================================================================
-         * PERMANENT SUPABASE DATABASE CONFIGURATION (HARDCODE HERE FOR GITHUB PAGES)
-         * Paste your Supabase Project URL and Anon Key inside the quotes below so
-         * every device connects automatically without any setup!
+         * PERMANENT SUPABASE DATABASE CONFIGURATION (PRE-CONFIGURED & SANITIZED)
          * ========================================================================== */
         const DEFAULT_SUPABASE_URL = "https://hrpjflznqazmaungopwj.supabase.co"; 
         const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_bGX8K-hI9miGJ2uLnWMo3A_TWWg1cPi";
         const SECRET_SALT = "CloudFinanceForce2026";
+
+        /* Automatically strips accidental '/rest/v1' or trailing slashes from any URL */
+        function sanitizeSupabaseUrl(rawUrl) {
+            if (!rawUrl || typeof rawUrl !== "string") return "";
+            let cleaned = rawUrl.trim();
+            cleaned = cleaned.replace(/\/rest\/v1\/?$/i, "");
+            cleaned = cleaned.replace(/\/+$/, "");
+            return cleaned;
+        }
 
         /* --- Default Expat Countries for Every User --- */
         const DEFAULT_EXPAT_COUNTRIES = [
@@ -1325,6 +1340,7 @@ ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;</pre>
         /* --- Global State --- */
         let supabaseClient = null;
         let isCloudConnected = false;
+        let lastCloudErrorMsg = "";
         let currentUser = null;
         let userCountries = [...DEFAULT_EXPAT_COUNTRIES];
         let activeCountry = { ...DEFAULT_EXPAT_COUNTRIES[0] }; // { name, currency, flag }
@@ -1465,116 +1481,231 @@ ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;</pre>
             return rc === targetCountryName.toLowerCase();
         }
 
+        function updateConnectionStatusUI() {
+            const adminBadge = document.getElementById("admin-db-badge");
+            if (adminBadge) {
+                adminBadge.textContent = isCloudConnected ? "☁️ Supabase Cloud Connected" : "⚡ Local Storage Mode (Tap DB Diagnostics)";
+                adminBadge.className = isCloudConnected
+                    ? "text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30"
+                    : "text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30";
+            }
+
+            const authBadge = document.getElementById("auth-conn-badge");
+            if (authBadge) {
+                if (isCloudConnected) {
+                    authBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span class="text-emerald-300">☁️ Cloud Database Online</span>`;
+                } else {
+                    authBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span><span class="text-amber-300">⚡ Instant Local Mode • Tap for Cloud SQL Setup</span>`;
+                }
+            }
+
+            const diagSub = document.getElementById("diag-status-sub");
+            if (diagSub) {
+                diagSub.textContent = isCloudConnected
+                    ? "✅ Connected to Supabase Cloud (hrpjflznqazmaungopwj.supabase.co)"
+                    : `⚠️ Cloud table check note: ${lastCloudErrorMsg || "Run the SQL setup script in Supabase SQL Editor"}`;
+            }
+        }
+
+        function openDbDiagModal() {
+            const sqlSource = document.getElementById("sql-schema-code");
+            const sqlPreview = document.getElementById("diag-sql-preview");
+            if (sqlSource && sqlPreview) {
+                sqlPreview.textContent = sqlSource.textContent;
+            }
+            updateConnectionStatusUI();
+            const modal = document.getElementById("db-diag-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeDbDiagModal() {
+            const modal = document.getElementById("db-diag-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+
+        async function retestCloudConnection() {
+            await DB.init();
+            if (isCloudConnected) {
+                showToast("Supabase Cloud connected & tables verified!", "success");
+                closeDbDiagModal();
+            } else {
+                showToast(`Still waiting for SQL tables: ${lastCloudErrorMsg || "Run SQL script in Supabase"}`, "info");
+            }
+        }
+
         const DB = {
             async init() {
-                const savedUrl = DEFAULT_SUPABASE_URL || localStorage.getItem("SUPA_URL") || "";
-                const savedKey = DEFAULT_SUPABASE_ANON_KEY || localStorage.getItem("SUPA_KEY") || "";
+                // Clean any previously broken URL in localStorage (e.g., trailing /rest/v1/)
+                const rawStoredUrl = localStorage.getItem("SUPA_URL");
+                if (rawStoredUrl) {
+                    const cleanedStored = sanitizeSupabaseUrl(rawStoredUrl);
+                    if (cleanedStored !== rawStoredUrl) {
+                        localStorage.setItem("SUPA_URL", cleanedStored);
+                    }
+                }
 
-                if (savedUrl && savedKey && window.supabase) {
+                const activeUrl = sanitizeSupabaseUrl(rawStoredUrl || DEFAULT_SUPABASE_URL);
+                const activeKey = (localStorage.getItem("SUPA_KEY") || DEFAULT_SUPABASE_ANON_KEY || "").trim();
+
+                if (activeUrl && activeKey && window.supabase) {
                     try {
-                        supabaseClient = window.supabase.createClient(savedUrl, savedKey);
+                        supabaseClient = window.supabase.createClient(activeUrl, activeKey, {
+                            auth: { persistSession: false, autoRefreshToken: false }
+                        });
                         const { error } = await supabaseClient.from('users').select('id').limit(1);
-                        isCloudConnected = !error;
+                        if (!error) {
+                            isCloudConnected = true;
+                            lastCloudErrorMsg = "";
+                        } else {
+                            isCloudConnected = false;
+                            lastCloudErrorMsg = error.message || "Tables not initialized yet";
+                        }
                     } catch (e) {
                         isCloudConnected = false;
+                        lastCloudErrorMsg = e.message || "Network / URL error";
                     }
                 } else {
                     isCloudConnected = false;
+                    lastCloudErrorMsg = "Missing Supabase URL or Key";
                 }
 
-                const adminBadge = document.getElementById("admin-db-badge");
-                if (adminBadge) {
-                    adminBadge.textContent = isCloudConnected ? "☁️ Supabase Cloud Connected" : "⚡ Local Encrypted DB Active";
-                }
+                updateConnectionStatusUI();
+            },
 
-                // Ensure Default Master Admin ('admin' / 'admin123') exists
-                const adminHash = await hashPassword("admin123");
-                if (isCloudConnected) {
-                    const { data: existingAdmin } = await supabaseClient.from('users').select('id').eq('username', 'admin').maybeSingle();
-                    if (!existingAdmin) {
-                        await supabaseClient.from('users').insert([{
-                            username: 'admin',
-                            password_hash: adminHash,
-                            role: 'admin',
-                            status: 'active',
-                            preferred_currency: 'KWD (د.ك)'
-                        }]);
-                    }
-                } else {
-                    const db = getLocalDB();
-                    if (!db.users.some(u => u.username.toLowerCase() === 'admin')) {
-                        const adminId = nextId(db.users);
-                        db.users.push({
-                            id: adminId,
-                            username: 'admin',
-                            password_hash: adminHash,
-                            role: 'admin',
-                            status: 'active',
-                            preferred_currency: 'KWD (د.ك)',
-                            countries_json: JSON.stringify(DEFAULT_EXPAT_COUNTRIES)
-                        });
-                        db.accounts.push(
-                            { id: 1, user_id: adminId, name: 'Main Bank (Kuwait)', type: 'Bank', balance: 0.0, country: 'Kuwait', currency: 'KWD' },
-                            { id: 2, user_id: adminId, name: 'Cash Wallet (Kuwait)', type: 'Cash Wallet', balance: 0.0, country: 'Kuwait', currency: 'KWD' },
-                            { id: 3, user_id: adminId, name: 'Main Bank (Sri Lanka)', type: 'Bank', balance: 0.0, country: 'Sri Lanka', currency: 'LKR' },
-                            { id: 4, user_id: adminId, name: 'Cash Wallet (Sri Lanka)', type: 'Cash Wallet', balance: 0.0, country: 'Sri Lanka', currency: 'LKR' }
-                        );
-                        saveLocalDB(db);
-                    }
+            authenticateLocalUser(cleanUser, passwordHash) {
+                const db = getLocalDB();
+                const user = db.users.find(u => u.username.toLowerCase() === cleanUser.toLowerCase());
+                if (!user) return null;
+                if (user.password_hash === passwordHash) return user;
+                return null;
+            },
+
+            registerLocalUser(cleanUser, passwordHash, role = 'user', initialCountries = DEFAULT_EXPAT_COUNTRIES) {
+                const db = getLocalDB();
+                if (db.users.some(u => u.username.toLowerCase() === cleanUser.toLowerCase())) {
+                    throw new Error("Username already exists! Please Sign In or choose another username.");
                 }
+                const assignedRole = (db.users.length === 0 || cleanUser.toLowerCase() === 'admin') ? 'admin' : role;
+                const newUser = {
+                    id: nextId(db.users),
+                    username: cleanUser,
+                    password_hash: passwordHash,
+                    role: assignedRole,
+                    status: 'active',
+                    preferred_currency: initialCountries[0].currency,
+                    countries_json: JSON.stringify(initialCountries)
+                };
+                db.users.push(newUser);
+                saveLocalDB(db);
+                return newUser;
             },
 
             async authenticateUser(username, passwordHash) {
                 const cleanUser = username.trim();
                 if (isCloudConnected) {
-                    const { data } = await supabaseClient.from('users').select('*').eq('username', cleanUser).maybeSingle();
-                    if (!data) return null;
-                    if (data.password_hash === passwordHash || (cleanUser === 'admin' && passwordHash === await hashPassword('admin123'))) {
-                        return data;
+                    try {
+                        const { data, error } = await supabaseClient
+                            .from('users')
+                            .select('*')
+                            .ilike('username', cleanUser)
+                            .maybeSingle();
+
+                        if (error) {
+                            isCloudConnected = false;
+                            lastCloudErrorMsg = error.message;
+                            updateConnectionStatusUI();
+                            return this.authenticateLocalUser(cleanUser, passwordHash);
+                        }
+                        if (data && data.password_hash === passwordHash) {
+                            return data;
+                        }
+                        // Also check if user was created locally before cloud tables were initialized
+                        const localMatch = this.authenticateLocalUser(cleanUser, passwordHash);
+                        if (localMatch) return localMatch;
+                        return null;
+                    } catch (e) {
+                        return this.authenticateLocalUser(cleanUser, passwordHash);
                     }
-                    return null;
                 } else {
-                    const db = getLocalDB();
-                    const user = db.users.find(u => u.username.toLowerCase() === cleanUser.toLowerCase());
-                    if (!user) return null;
-                    if (user.password_hash === passwordHash || (cleanUser.toLowerCase() === 'admin' && passwordHash === await hashPassword('admin123'))) {
-                        return user;
-                    }
-                    return null;
+                    return this.authenticateLocalUser(cleanUser, passwordHash);
                 }
             },
 
             async registerUser(username, passwordHash, role = 'user', initialCountries = DEFAULT_EXPAT_COUNTRIES) {
                 const cleanUser = username.trim();
                 const cJson = JSON.stringify(initialCountries);
+
                 if (isCloudConnected) {
-                    const payload = {
-                        username: cleanUser,
-                        password_hash: passwordHash,
-                        role: role,
-                        status: 'active',
-                        preferred_currency: `${initialCountries[0].currency}`
-                    };
-                    const { data, error } = await supabaseClient.from('users').insert([payload]).select().single();
-                    if (error) throw new Error("Username already exists");
-                    return data;
-                } else {
-                    const db = getLocalDB();
-                    if (db.users.some(u => u.username.toLowerCase() === cleanUser.toLowerCase())) {
-                        throw new Error("Username already exists");
+                    try {
+                        // Check if username already exists in cloud
+                        const { data: existingUser, error: checkErr } = await supabaseClient
+                            .from('users')
+                            .select('id')
+                            .ilike('username', cleanUser)
+                            .maybeSingle();
+
+                        if (checkErr) {
+                            // Automatic fallback to Local Storage so user is never blocked
+                            isCloudConnected = false;
+                            lastCloudErrorMsg = checkErr.message;
+                            updateConnectionStatusUI();
+                            showToast("Cloud tables not yet initialized — account saved locally!", "info");
+                            return this.registerLocalUser(cleanUser, passwordHash, role, initialCountries);
+                        }
+
+                        if (existingUser) {
+                            throw new Error("Username already exists! Please Sign In or pick another username.");
+                        }
+
+                        // Determine if first user in database or username 'admin' -> Grant Master Admin
+                        const { count } = await supabaseClient.from('users').select('id', { count: 'exact', head: true });
+                        const assignedRole = (count === 0 || cleanUser.toLowerCase() === 'admin') ? 'admin' : role;
+
+                        const payloadWithCountries = {
+                            username: cleanUser,
+                            password_hash: passwordHash,
+                            role: assignedRole,
+                            status: 'active',
+                            preferred_currency: `${initialCountries[0].currency}`,
+                            countries_json: cJson
+                        };
+
+                        let { data, error } = await supabaseClient.from('users').insert([payloadWithCountries]).select().single();
+
+                        if (error) {
+                            // Retry with minimal columns if 'countries_json' or 'preferred_currency' column wasn't added yet
+                            const minimalPayload = {
+                                username: cleanUser,
+                                password_hash: passwordHash,
+                                role: assignedRole,
+                                status: 'active'
+                            };
+                            const retry = await supabaseClient.from('users').insert([minimalPayload]).select().single();
+                            data = retry.data;
+                            error = retry.error;
+                        }
+
+                        if (error) {
+                            isCloudConnected = false;
+                            lastCloudErrorMsg = error.message;
+                            updateConnectionStatusUI();
+                            showToast("Saved to Local Storage (Run SQL Setup in Supabase for Cloud sync).", "info");
+                            return this.registerLocalUser(cleanUser, passwordHash, role, initialCountries);
+                        }
+
+                        // Mirror in local storage as backup
+                        try { this.registerLocalUser(cleanUser, passwordHash, assignedRole, initialCountries); } catch (_) {}
+                        return data;
+                    } catch (err) {
+                        if (err.message && err.message.includes("already exists")) {
+                            throw err;
+                        }
+                        return this.registerLocalUser(cleanUser, passwordHash, role, initialCountries);
                     }
-                    const newUser = {
-                        id: nextId(db.users),
-                        username: cleanUser,
-                        password_hash: passwordHash,
-                        role: role,
-                        status: 'active',
-                        preferred_currency: initialCountries[0].currency,
-                        countries_json: cJson
-                    };
-                    db.users.push(newUser);
-                    saveLocalDB(db);
-                    return newUser;
+                } else {
+                    return this.registerLocalUser(cleanUser, passwordHash, role, initialCountries);
                 }
             },
 
@@ -2070,6 +2201,8 @@ ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;</pre>
             const loginBtn = document.getElementById("tab-login-btn");
             const regBtn = document.getElementById("tab-register-btn");
             document.getElementById("login-error-box").classList.add("hidden");
+            const regErrBox = document.getElementById("reg-error-box");
+            if (regErrBox) regErrBox.classList.add("hidden");
 
             if (mode === "login") {
                 loginForm.classList.remove("hidden");
@@ -2096,30 +2229,7 @@ ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;</pre>
             }
         }
 
-        async function handleLogin(e) {
-            e.preventDefault();
-            const username = document.getElementById("login-username").value.trim();
-            const password = document.getElementById("login-password").value;
-            const errBox = document.getElementById("login-error-box");
-            const errText = document.getElementById("login-error-text");
-            errBox.classList.add("hidden");
-
-            const pHash = await hashPassword(password);
-            const user = await DB.authenticateUser(username, pHash);
-
-            if (!user) {
-                errText.textContent = "❌ Invalid username or password.";
-                errBox.classList.remove("hidden");
-                return;
-            }
-
-            if (user.status === "inactive" || user.status === "suspended") {
-                errText.textContent = "⛔ Account Suspended: Your access has been suspended by the Administrator.";
-                errBox.classList.remove("hidden");
-                return;
-            }
-
-            document.getElementById("login-form").reset();
+        async function completeUserSessionLogin(user) {
             currentUser = user;
             sessionStorage.setItem("ACTIVE_FINANCE_USER", JSON.stringify(user));
 
@@ -2134,14 +2244,65 @@ ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;</pre>
             showToast(`Welcome, ${user.username}! Active Country: ${activeCountry.flag} ${activeCountry.name}`, "success");
         }
 
+        async function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById("login-username").value.trim();
+            const password = document.getElementById("login-password").value;
+            const errBox = document.getElementById("login-error-box");
+            const errText = document.getElementById("login-error-text");
+            const submitBtn = document.getElementById("login-submit-btn");
+            errBox.classList.add("hidden");
+
+            if (!username || !password) {
+                errText.textContent = "Please enter both username and password.";
+                errBox.classList.remove("hidden");
+                return;
+            }
+
+            submitBtn.disabled = true;
+            try {
+                const pHash = await hashPassword(password);
+                const user = await DB.authenticateUser(username, pHash);
+
+                if (!user) {
+                    errText.textContent = "❌ Account not found or incorrect password. Need an account? Tap 'Create Account' above!";
+                    errBox.classList.remove("hidden");
+                    return;
+                }
+
+                if (user.status === "inactive" || user.status === "suspended") {
+                    errText.textContent = "⛔ Account Suspended: Your access has been suspended by the Administrator.";
+                    errBox.classList.remove("hidden");
+                    return;
+                }
+
+                document.getElementById("login-form").reset();
+                await completeUserSessionLogin(user);
+            } finally {
+                submitBtn.disabled = false;
+            }
+        }
+
         async function handleRegister(e) {
             e.preventDefault();
             const u = document.getElementById("reg-username").value.trim();
             const p1 = document.getElementById("reg-password").value;
             const p2 = document.getElementById("reg-confirm").value;
             const primaryVal = document.getElementById("reg-primary-country").value;
+            const regErrBox = document.getElementById("reg-error-box");
+            const regErrText = document.getElementById("reg-error-text");
+            const regBtn = document.getElementById("reg-submit-btn");
+            if (regErrBox) regErrBox.classList.add("hidden");
+
+            if (!u || !p1) {
+                regErrText.textContent = "Please enter a username and password.";
+                regErrBox.classList.remove("hidden");
+                return;
+            }
 
             if (p1 !== p2) {
+                regErrText.textContent = "❌ Passwords do not match!";
+                regErrBox.classList.remove("hidden");
                 showToast("Passwords do not match!", "error");
                 return;
             }
@@ -2153,15 +2314,24 @@ ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;</pre>
             if (cName !== "Sri Lanka") customList.push({ name: "Sri Lanka", currency: "LKR", flag: "🇱🇰" });
             if (cName !== "Kuwait") customList.push({ name: "Kuwait", currency: "KWD", flag: "🇰🇼" });
 
+            regBtn.disabled = true;
             try {
                 const pHash = await hashPassword(p1);
-                const newUser = await DB.registerUser(u, pHash, 'user', customList);
+                const desiredRole = u.toLowerCase() === 'admin' ? 'admin' : 'user';
+                const newUser = await DB.registerUser(u, pHash, desiredRole, customList);
                 localStorage.setItem(`USER_COUNTRIES_${newUser.id}`, JSON.stringify(customList));
                 document.getElementById("register-form").reset();
-                showToast("Account created! Sign in to access your multi-country hub.", "success");
-                switchAuthTab("login");
+                showToast(`Account "${newUser.username}" created! Logging you in...`, "success");
+                await completeUserSessionLogin(newUser);
             } catch (err) {
-                showToast(err.message || "Registration failed.", "error");
+                const msg = err.message || "Registration failed.";
+                if (regErrBox && regErrText) {
+                    regErrText.textContent = msg;
+                    regErrBox.classList.remove("hidden");
+                }
+                showToast(msg, "error");
+            } finally {
+                regBtn.disabled = false;
             }
         }
 
@@ -2981,8 +3151,8 @@ ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;</pre>
         async function renderAdminPage() {
             if (currentUser.role !== "admin") return;
 
-            document.getElementById("supa-url-input").value = DEFAULT_SUPABASE_URL || localStorage.getItem("SUPA_URL") || "";
-            document.getElementById("supa-key-input").value = DEFAULT_SUPABASE_ANON_KEY || localStorage.getItem("SUPA_KEY") || "";
+            document.getElementById("supa-url-input").value = sanitizeSupabaseUrl(localStorage.getItem("SUPA_URL") || DEFAULT_SUPABASE_URL || "");
+            document.getElementById("supa-key-input").value = localStorage.getItem("SUPA_KEY") || DEFAULT_SUPABASE_ANON_KEY || "";
 
             const users = await DB.getAllUsers();
             const list = document.getElementById("admin-users-list");
@@ -3065,12 +3235,14 @@ ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;</pre>
         }
 
         async function saveAndConnectSupabase() {
-            const url = document.getElementById("supa-url-input").value.trim();
+            const rawUrl = document.getElementById("supa-url-input").value.trim();
+            const url = sanitizeSupabaseUrl(rawUrl);
             const key = document.getElementById("supa-key-input").value.trim();
             if (!url || !key) {
                 showToast("Enter both Supabase URL and Anon Key.", "error");
                 return;
             }
+            document.getElementById("supa-url-input").value = url;
             localStorage.setItem("SUPA_URL", url);
             localStorage.setItem("SUPA_KEY", key);
             await DB.init();
@@ -3078,7 +3250,7 @@ ALTER TABLE savings_goals DISABLE ROW LEVEL SECURITY;</pre>
                 showToast("Permanently connected to Supabase Cloud!", "success");
                 await renderAdminPage();
             } else {
-                showToast("Connection failed. Run the SQL Migration Script in Supabase SQL Editor first!", "error");
+                showToast("Connection saved, but SQL tables need setup. Tap 'DB Diagnostics' to copy the SQL script!", "error");
             }
         }
 
